@@ -1,0 +1,19 @@
+name: SeeInv
+version: "${pom.version}"
+api: ["1.0.8"]
+author: PetteriM1
+main: me.petterim1.seeinv.Main
+description: A Nukkit plugin which allows staff to see players inventories
+website: https://nukkitx.com/resources/seeinv.289/
+depend: ["FakeInventories"]
+
+commands:
+  seeinv:
+    description: SeeInv
+    usage: "/seeinv <player> [echest]"
+    permission: seeinv.command.use
+
+permissions:
+  seeinv.command.use:
+    description: "Allows user to use /seeinv command"
+    default: op
