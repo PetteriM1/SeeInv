@@ -3,15 +3,8 @@ package me.petterim1.seeinv;
 import cn.nukkit.Player;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
-import cn.nukkit.event.Listener;
-import cn.nukkit.inventory.PlayerInventory;
-import cn.nukkit.inventory.transaction.action.SlotChangeAction;
-import cn.nukkit.item.Item;
 import cn.nukkit.plugin.PluginBase;
-import cn.nukkit.plugin.service.RegisteredServiceProvider;
-import com.nukkitx.fakeinventories.inventory.ChestFakeInventory;
 import com.nukkitx.fakeinventories.inventory.DoubleChestFakeInventory;
-import com.nukkitx.fakeinventories.inventory.FakeInventories;
 import com.nukkitx.fakeinventories.inventory.FakeSlotChangeEvent;
 
 public class Main extends PluginBase {
@@ -57,6 +50,20 @@ public class Main extends PluginBase {
     }
 
     private void onSlotChange(FakeSlotChangeEvent e) {
+        if (e.getInventory() instanceof DoubleChestFakeInventory && e.getPlayer().hasPermission("seeinv.takeitems")) {
+            if (e.getInventory().getName().contains("'s ender chest inventory") || e.getInventory().getName().contains("'s inventory")) {
+                Player target = getServer().getPlayer(e.getInventory().getName().replace("'s ender chest inventory", "").replace("'s inventory", ""));
+
+                if (target == null) {
+                    e.setCancelled(true);
+                } else { // TODO: Check where the item is moved to
+                    target.getInventory().remove(e.getAction().getSourceItem());
+                }
+
+                return;
+            }
+        }
+
         if (e.getInventory() instanceof DoubleChestFakeInventory) {
             if (e.getInventory().getName().contains("'s ender chest inventory") || e.getInventory().getName().contains("'s inventory")) {
                 e.setCancelled(true);

@@ -17,3 +17,6 @@ permissions:
   seeinv.command.use:
     description: "Allows user to use /seeinv command"
     default: op
+  seeinv.takeitems:
+    description: "Allows user to take items from other players inventories"
+    default: op
