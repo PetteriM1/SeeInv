@@ -4,6 +4,7 @@ import cn.nukkit.Player;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.plugin.PluginBase;
+import com.nukkitx.fakeinventories.inventory.ChestFakeInventory;
 import com.nukkitx.fakeinventories.inventory.DoubleChestFakeInventory;
 import com.nukkitx.fakeinventories.inventory.FakeSlotChangeEvent;
 
@@ -28,17 +29,19 @@ public class Main extends PluginBase {
                     return true;
                 }
 
-                DoubleChestFakeInventory inv = new DoubleChestFakeInventory();
-                inv.addListener(this::onSlotChange);
+                ChestFakeInventory inv;
 
                 if (args.length == 2 && args[1].equalsIgnoreCase("echest")) {
+                    inv = new ChestFakeInventory();
                     inv.setContents(target.getEnderChestInventory().getContents());
                     inv.setName(target.getName() + "'s ender chest inventory");
                 } else {
+                    inv = new DoubleChestFakeInventory();
                     inv.setContents(target.getInventory().getContents());
                     inv.setName(target.getName() + "'s inventory");
                 }
 
+                inv.addListener(this::onSlotChange);
                 ((Player) sender).addWindow(inv);
                 return true;
             }
@@ -50,7 +53,7 @@ public class Main extends PluginBase {
     }
 
     private void onSlotChange(FakeSlotChangeEvent e) {
-        if (e.getInventory() instanceof DoubleChestFakeInventory && e.getPlayer().hasPermission("seeinv.takeitems")) {
+        if (e.getInventory() instanceof ChestFakeInventory && e.getPlayer().hasPermission("seeinv.takeitems")) {
             if (e.getInventory().getName().contains("'s ender chest inventory") || e.getInventory().getName().contains("'s inventory")) {
                 Player target = getServer().getPlayer(e.getInventory().getName().replace("'s ender chest inventory", "").replace("'s inventory", ""));
 
