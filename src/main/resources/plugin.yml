@@ -20,3 +20,6 @@ permissions:
   seeinv.takeitems:
     description: "Allows user to take items from other players inventories"
     default: op
+  seeinv.self:
+    description: "Allows user to view his own inventory"
+    default: op
