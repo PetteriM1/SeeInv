@@ -111,7 +111,7 @@ public class Main extends PluginBase {
     private void onSlotChange(FakeSlotChangeEvent e) {
         if (e.getInventory() instanceof ChestFakeInventory) {
             boolean inv = e.getInventory() instanceof DoubleChestFakeInventory && e.getInventory().getName().contains("'s inventory");
-            boolean ec = e.getInventory() instanceof ChestFakeInventory && e.getInventory().getName().contains("'s ender chest");
+            boolean ec = e.getInventory().getName().contains("'s ender chest");
             if (inv || ec) {
                 if (e.getPlayer().hasPermission("seeinv.takeitems")) {
                     Player target = getServer().getPlayerExact(e.getInventory().getName().replace("'s ender chest", "").replace("'s inventory", ""));
