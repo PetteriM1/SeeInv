@@ -12,18 +12,15 @@ commands:
     description: See player's inventory
     usage: "/seeinv <player> [echest]"
     permission: seeinv.command.use
-  echest:
-    description: See player's ender chest inventory
-    usage: "/echest [player]"
-    permission: seeinv.command.use
+  editinv:
+    description: Edit player's inventory
+    usage: "/seeinv <player> [echest]"
+    permission: editinv.command.use
 
 permissions:
   seeinv.command.use:
     description: "Allows user to use /seeinv command"
     default: op
-  seeinv.takeitems:
-    description: "Allows user to take items from other players inventories"
-    default: op
-  seeinv.self:
-    description: "Allows user to view his own inventory"
+  editinv.command.use:
+    description: "Allows user to use /editinv command"
     default: op
