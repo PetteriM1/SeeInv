@@ -144,6 +144,7 @@ public class Main extends PluginBase {
                         } else {
                             target.getEnderChestInventory().setContents(e.getInventory().getContents());
                         }
+                        getLogger().info(e.getPlayer().getName() + " modified " + e.getInventory().getName());
                     });
                 }
             }
