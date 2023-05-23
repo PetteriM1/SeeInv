@@ -86,7 +86,10 @@ public class Main extends PluginBase {
                     loadOfflineInventory(inv, offlineData, true);
                     inv.setName(offlineData.getString("NameTag") + "'s ender chest");
                 } else {
-                    target.removeWindow(target.getEnderChestInventory());
+                    if (target.getWindowId(target.getEnderChestInventory()) != -1) {
+                        target.removeWindow(target.getEnderChestInventory());
+                        sender.sendMessage(target.getName() + "'s ender chest inventory was closed forcefully");
+                    }
 
                     inv.setName(target.getName() + "'s ender chest");
                     inv.setContents(target.getEnderChestInventory().getContents());
@@ -94,12 +97,20 @@ public class Main extends PluginBase {
                     ecOpen.add(target.getName());
                 }
             } else {
+                if (sender.equals(target)) {
+                    sender.sendMessage("§cCan't edit own player inventory");
+                    return true;
+                }
+
                 inv = new DoubleChestFakeInventory();
                 if (offlineData != null) {
                     loadOfflineInventory(inv, offlineData, false);
                     inv.setName(offlineData.getString("NameTag") + "'s inventory");
                 } else {
-                    target.removeWindow(target.getInventory());
+                    if (target.getWindowId(target.getInventory()) != -1) {
+                        target.removeWindow(target.getInventory());
+                        sender.sendMessage(target.getName() + "'s inventory was closed forcefully");
+                    }
 
                     inv.setName(target.getName() + "'s inventory");
                     inv.setContents(target.getInventory().getContents());
