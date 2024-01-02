@@ -17,13 +17,13 @@ import com.nukkitx.fakeinventories.inventory.ChestFakeInventory;
 import com.nukkitx.fakeinventories.inventory.DoubleChestFakeInventory;
 import com.nukkitx.fakeinventories.inventory.FakeSlotChangeEvent;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Main extends PluginBase {
 
-    private final List<String> ecOpen = new ArrayList<>();
-    private final List<String> invOpen = new ArrayList<>();
+    private final Set<String> ecOpen = new HashSet<>();
+    private final Set<String> invOpen = new HashSet<>();
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!(sender instanceof Player)) {
@@ -142,7 +142,7 @@ public class Main extends PluginBase {
             boolean ec = e.getInventory().getName().contains("'s ender chest");
             if (inv || ec) {
                 Player target = getServer().getPlayerExact(e.getInventory().getName().replace("'s ender chest", "").replace("'s inventory", ""));
-                if (target == null) {
+                if (target == null || !target.isOnline()) {
                     e.getPlayer().sendMessage("§cOperation failed: target player is not online");
                     e.setCancelled(true);
                 } else if (inv && target.equals(e.getPlayer())) {
@@ -151,7 +151,7 @@ public class Main extends PluginBase {
                 } else {
                     getServer().getScheduler().scheduleTask(this, () -> {
                         if (inv) {
-                            target.getInventory().setContents(e.getInventory().getContents());
+                            target.getInventory().setContents(e.getInventory().getContents()); // TODO: correct slots
                         } else {
                             target.getEnderChestInventory().setContents(e.getInventory().getContents());
                         }
